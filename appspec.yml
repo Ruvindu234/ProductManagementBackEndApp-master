@@ -1,0 +1,43 @@
+version: 0.0
+os: linux
+
+# Specify the files to copy
+files:
+  - source: target/backend-app.jar
+    destination: /home/ec2-user/app
+  - source: scripts
+    destination: /home/ec2-user/app/scripts
+
+# Specify file permissions
+permissions:
+  - object: /home/ec2-user/app
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+    type:
+      - directory
+      - file
+
+# Deployment hooks
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 20
+      runas: ec2-user
+  BeforeInstall:
+    - location: scripts/clean_instance.sh
+      timeout: 30
+      runas: ec2-user
+  AfterInstall:
+    - location: scripts/setup_application.sh
+      timeout: 30
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 60
+      runas: ec2-user
+  ValidateService:
+    - location: scripts/validate_service.sh
+      timeout: 30
+      runas: ec2-user
