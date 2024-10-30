@@ -1,3 +1,5 @@
+# appspec.yml
+# This file is used by AWS CodeDeploy to deploy your application
 version: 0.0
 os: linux
 
@@ -22,7 +24,7 @@ permissions:
 # Deployment hooks
 hooks:
   ApplicationStop:
-    - location: /home/ec2-user/app/scripts/clean_instance.sh
+    - location: scripts/clean_instance.sh
       timeout: 20
       runas: ec2-user
   BeforeInstall:
