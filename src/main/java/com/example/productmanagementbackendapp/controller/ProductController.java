@@ -13,6 +13,7 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    //ec2-13-61-8-92.eu-north-1.compute.amazonaws.com:8080/api/products/all
     @GetMapping("/all")
     public List<Product> getAllProductsController() {
         return  productService.getAllProducts();
